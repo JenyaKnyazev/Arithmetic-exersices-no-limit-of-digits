@@ -4,11 +4,11 @@
 #include <time.h>
 #include <stdlib.h>
 using namespace std;
-vector<int> str_to_vec(string &s) {
+vector<int> str_to_vec(string& s) {
     vector<int>vec;
     int i;
     i = 0;
-    label:
+label:
     if (s[i] >= 'A' && s[i] <= 'F')
         vec.push_back(s[i] - 'A' + 10);
     else if (s[i] >= 'a' && s[i] <= 'f')
@@ -22,10 +22,10 @@ vector<int> str_to_vec(string &s) {
 }
 string vec_to_str(vector<int> vec) {
     string s = "";
-    int i=0;
+    int i = 0;
     if (vec.size() == 0)
         return "0";
-    label:
+label:
     if (vec[i] > 9)
         s += vec[i] + 'A' - 10;
     else
@@ -41,7 +41,7 @@ int max(int a, int b) {
 void refresh(vector<int>& vec) {
     int i;
     i = vec.size() - 1;
-    label:
+label:
     if (i > 0) {
         vec[i - 1] += vec[i] / 10;
         vec[i] %= 10;
@@ -51,7 +51,7 @@ void refresh(vector<int>& vec) {
         goto label;
     vec.insert(vec.begin(), vec[0] / 10);
     vec[1] %= 10;
-    label2:
+label2:
     if (vec[0] == 0 && vec.size() > 1) {
         vec.erase(vec.begin());
         goto label2;
@@ -72,11 +72,11 @@ label:
     vec[1] %= 10;
 }
 vector<int> add(vector<int> a, vector<int> b) {
-    vector<int>vec(max(a.size(),b.size())+1,0);
-    int i,r;
+    vector<int>vec(max(a.size(), b.size()) + 1, 0);
+    int i, r;
     i = a.size() - 1;
     r = vec.size() - 1;
-    label:
+label:
     vec[r] = a[i];
     i--;
     r--;
@@ -84,7 +84,7 @@ vector<int> add(vector<int> a, vector<int> b) {
         goto label;
     i = b.size() - 1;
     r = vec.size() - 1;
-    label2:
+label2:
     vec[r] += b[i];
     i--;
     r--;
@@ -94,8 +94,8 @@ vector<int> add(vector<int> a, vector<int> b) {
     return vec;
 }
 void refresh2(vector<int>& vec) {
-    int i=0;
-    label:
+    int i = 0;
+label:
     if (i < vec.size() - 1) {
         vec[i]--;
         vec[i + 1] += 10;
@@ -106,27 +106,27 @@ void refresh2(vector<int>& vec) {
     refresh(vec);
 }
 vector<int> sub(vector<int>a, vector<int>b) {
-    int i,r;
-    i = a.size()-1;
+    int i, r;
+    i = a.size() - 1;
     r = b.size() - 1;
-    label:
+label:
     a[i] -= b[r];
     i--;
     r--;
-    if (i >= 0&&r >= 0)
+    if (i >= 0 && r >= 0)
         goto label;
     refresh2(a);
     return a;
-    
+
 }
 int is_smaller(vector<int>& a, vector<int>& b) {
     int i;
-    lab:
+lab:
     if (a.size() > 1 && a[0] == 0) {
         a.erase(a.begin());
         goto lab;
     }
-    lab2:
+lab2:
     if (b.size() > 1 && b[0] == 0) {
         b.erase(b.begin());
         goto lab2;
@@ -136,7 +136,7 @@ int is_smaller(vector<int>& a, vector<int>& b) {
     if (a.size() > b.size())
         return 0;
     i = 0;
-    label:
+label:
     if (a[i] > b[i])
         return 0;
     if (a[i] < b[i])
@@ -148,12 +148,12 @@ int is_smaller(vector<int>& a, vector<int>& b) {
 }
 vector<int> mul(vector<int>a, vector<int>b) {
     vector<int> vec(a.size() + b.size(), 0);
-    int i, r,j;
-    i = a.size()-1;
-    label2:
+    int i, r, j;
+    i = a.size() - 1;
+label2:
     r = b.size() - 1;
-    label:
-    j = vec.size() - 1 - (a.size() - (i + 1) + b.size() - (r + 1) );
+label:
+    j = vec.size() - 1 - (a.size() - (i + 1) + b.size() - (r + 1));
     vec[j] += a[i] * b[r];
     r--;
     refreshX(vec);
@@ -168,24 +168,24 @@ vector<int> mul(vector<int>a, vector<int>b) {
 }
 vector<vector<int>> div_and_mod(vector<int> a, vector<int>b) {
     vector<vector<int>>vec;
-    vector<int>div(1,0);
+    vector<int>div(1, 0);
     vector<int>run;
     int i;
     i = 0;
-    label:
-    if (i<a.size()&&is_smaller(run, b)) {
+label:
+    if (i < a.size() && is_smaller(run, b)) {
         div = mul(div, { 1,0 });
         run.push_back(a[i]);
         i++;
         goto label;
     }
-    label2:
+label2:
     if (is_smaller(run, b) == 0) {
         div = add(div, { 1 });
         run = sub(run, b);
         goto label2;
     }
-    label3:
+label3:
     if (run.size() > 0 && run[0] == 0) {
         run.erase(run.begin());
         goto label3;
@@ -202,9 +202,9 @@ vector<vector<int>> div_and_mod(vector<int> a, vector<int>b) {
 int equals_(vector<int> a, vector<int> b) {
     if (a.size() != b.size())
         return 0;
-    int i=0;
-    label:
-    if (i<a.size()&&a[i] != b[i])
+    int i = 0;
+label:
+    if (i < a.size() && a[i] != b[i])
         return 0;
     i++;
     if (i < a.size())
@@ -215,10 +215,10 @@ vector<int> dec_to_bin(vector<int>vec) {
     vector<int>bin;
     vector<vector<int>>d_m;
     vector<int>t(1, 0);
-    label:
-    if (equals_(vec,t)==0) {
+label:
+    if (equals_(vec, t) == 0) {
         d_m = div_and_mod(vec, { 2 });
-        bin.insert(bin.begin(), d_m[1].begin(),d_m[1].end());
+        bin.insert(bin.begin(), d_m[1].begin(), d_m[1].end());
         vec = d_m[0];
         goto label;
     }
@@ -229,7 +229,7 @@ vector<int> bin_to_dec(vector<int>bin) {
     vector<int>m(1, 1);
     vector<int>sum(1, 0);
     i = bin.size() - 1;
-    label:
+label:
     sum = add(sum, mul({ bin[i] }, m));
     m = mul(m, { 2 });
     i--;
@@ -267,7 +267,7 @@ vector<int> dec_to_hex(vector<int>vec) {
     vector<int>hex;
     vector<vector<int>>d_m;
     vector<int>t(1, 0);
-    int num=0;
+    int num = 0;
 label:
     if (equals_(vec, t) == 0) {
         d_m = div_and_mod(vec, { 1,6 });
@@ -276,7 +276,7 @@ label:
             num *= 10;
             num += d_m[1][1];
         }
-        hex.insert(hex.begin(),num);
+        hex.insert(hex.begin(), num);
         vec = d_m[0];
         goto label;
     }
@@ -332,7 +332,7 @@ label:
 }
 vector<int> generate_octal(int digits) {
     vector<int>vec;
-    vec.push_back(rand()%7+1);
+    vec.push_back(rand() % 7 + 1);
     digits--;
 label:
     if (digits > 0) {
@@ -365,19 +365,19 @@ int again(int c, int w) {
     return n;
 }
 void bin_add(int digits, int ex) {
-    int correct ;
+    int correct;
     int wrong;
-    int tasks ;
+    int tasks;
     string s;
-    label2:
+label2:
     correct = 0;
     wrong = 0;
     tasks = ex;
-    label:
-    vector<int>a=generate_bin(digits);
+label:
+    vector<int>a = generate_bin(digits);
     vector<int>b = generate_bin(digits);
     vector<int>c;
-    cout << vec_to_str(a) + " + " + vec_to_str(b) << " = " ;
+    cout << vec_to_str(a) + " + " + vec_to_str(b) << " = ";
     getline(cin, s);
     c = str_to_vec(s);
     if (add(bin_to_dec(a), bin_to_dec(b)) == bin_to_dec(c))
@@ -395,11 +395,11 @@ void bin_sub(int digits, int ex) {
     int wrong;
     int tasks;
     string s;
-    label2:
+label2:
     correct = 0;
     wrong = 0;
     tasks = ex;
-    label:
+label:
     vector<int>a = generate_bin(digits);
     vector<int>b = generate_bin(digits);
     vector<int>c;
@@ -421,11 +421,11 @@ void bin_mul(int digits, int ex) {
     int wrong;
     int tasks;
     string s;
-    label2:
+label2:
     correct = 0;
     wrong = 0;
     tasks = ex;
-    label:
+label:
     vector<int>a = generate_bin(digits);
     vector<int>b = generate_bin(digits);
     vector<int>c;
@@ -446,11 +446,11 @@ void bin_div(int digits, int ex) {
     int wrong;
     int tasks;
     string s;
-    label2:
+label2:
     correct = 0;
     wrong = 0;
     tasks = ex;
-    label:
+label:
     vector<int>a = generate_bin(digits);
     vector<int>b = generate_bin(digits);
     vector<int>c;
@@ -471,11 +471,11 @@ void bin_dec(int digits, int ex) {
     int wrong;
     int tasks;
     string s;
-    label2:
+label2:
     correct = 0;
     wrong = 0;
     tasks = ex;
-    label:
+label:
     vector<int>a = generate_bin(digits);
     vector<int>b;
     cout << vec_to_str(a) << " = ";
@@ -491,7 +491,7 @@ void bin_dec(int digits, int ex) {
     if (again(correct, wrong))
         goto label2;
 }
-void bin_menu(int digits,int ex) {
+void bin_menu(int digits, int ex) {
     int n;
 label:
     cout << "\nBinary" << endl;
@@ -504,21 +504,21 @@ label:
     cin >> n;
     cin.ignore();
     switch (n) {
-        case 1:
-            bin_add(digits, ex);
-            break;
-        case 2:
-            bin_sub(digits, ex);
-            break;
-        case 3:
-            bin_mul(digits, ex);
-            break;
-        case 4:
-            bin_div(digits, ex);
-            break;
-        case 5:
-            bin_dec(digits, ex);
-            break;
+    case 1:
+        bin_add(digits, ex);
+        break;
+    case 2:
+        bin_sub(digits, ex);
+        break;
+    case 3:
+        bin_mul(digits, ex);
+        break;
+    case 4:
+        bin_div(digits, ex);
+        break;
+    case 5:
+        bin_dec(digits, ex);
+        break;
     }
     if (n >= 1 && n <= 5)
         goto label;
@@ -528,14 +528,14 @@ void octal_add(int digits, int ex) {
     int wrong;
     int tasks;
     string s;
-    label2:
+label2:
     correct = 0;
     wrong = 0;
     tasks = ex;
-    label:
-    vector<int>a=generate_octal(digits);
-    vector<int>b=generate_octal(digits);
-    cout << vec_to_str(a) + " + " << vec_to_str(b) <<" = ";
+label:
+    vector<int>a = generate_octal(digits);
+    vector<int>b = generate_octal(digits);
+    cout << vec_to_str(a) + " + " << vec_to_str(b) << " = ";
     getline(cin, s);
     if (dec_to_octal(add(octal_to_dec(a), octal_to_dec(b))) == str_to_vec(s))
         correct++;
@@ -552,14 +552,14 @@ void octal_sub(int digits, int ex) {
     int wrong;
     int tasks;
     string s;
-    label2:
+label2:
     correct = 0;
     wrong = 0;
     tasks = ex;
-    label:
+label:
     vector<int>a = generate_octal(digits);
     vector<int>b = generate_octal(digits);
-    vector<int>c= dec_to_octal(add(octal_to_dec(a), octal_to_dec(b)));
+    vector<int>c = dec_to_octal(add(octal_to_dec(a), octal_to_dec(b)));
     cout << vec_to_str(c) << " - " << vec_to_str(b) << " = ";
     getline(cin, s);
     if (str_to_vec(s) == a)
@@ -577,11 +577,11 @@ void octal_mul(int digits, int ex) {
     int wrong;
     int tasks;
     string s;
-    label2:
+label2:
     correct = 0;
     wrong = 0;
     tasks = ex;
-    label:
+label:
     vector<int>a = generate_octal(digits);
     vector<int>b = generate_octal(digits);
     cout << vec_to_str(a) << " * " << vec_to_str(b) << " = ";
@@ -601,15 +601,15 @@ void octal_div(int digits, int ex) {
     int wrong;
     int tasks;
     string s;
-    label2:
+label2:
     correct = 0;
     wrong = 0;
     tasks = ex;
-    label:
+label:
     vector<int>a = generate_octal(digits);
     vector<int>b = generate_octal(digits);
     vector<int>c = dec_to_octal(mul(octal_to_dec(a), octal_to_dec(b)));
-    cout << vec_to_str(c) << " / " << vec_to_str(b)<<" = ";
+    cout << vec_to_str(c) << " / " << vec_to_str(b) << " = ";
     getline(cin, s);
     if (str_to_vec(s) == a)
         correct++;
@@ -621,16 +621,16 @@ void octal_div(int digits, int ex) {
     if (again(correct, wrong))
         goto label2;
 }
-void octal_dec(int digits,int ex) {
+void octal_dec(int digits, int ex) {
     int correct;
     int wrong;
     int tasks;
     string s;
-    label2:
+label2:
     correct = 0;
     wrong = 0;
     tasks = ex;
-    label:
+label:
     vector<int>a = generate_octal(digits);
     cout << vec_to_str(a) << " = ";
     getline(cin, s);
@@ -649,11 +649,11 @@ void octal_hex(int digits, int ex) {
     int wrong;
     int tasks;
     string s;
-    label2:
+label2:
     correct = 0;
     wrong = 0;
     tasks = ex;
-    label:
+label:
     vector<int>a = generate_octal(digits);
     cout << vec_to_str(a) << " = ";
     getline(cin, s);
@@ -739,7 +739,7 @@ label2:
 label:
     vector<int>a = generate_dec(digits);
     vector<int>b = generate_dec(digits);
-    cout << vec_to_str(add(a,b)) << " - " << vec_to_str(b) << " = ";
+    cout << vec_to_str(add(a, b)) << " - " << vec_to_str(b) << " = ";
     getline(cin, s);
     if (str_to_vec(s) == a)
         correct++;
@@ -787,7 +787,7 @@ label2:
 label:
     vector<int>a = generate_dec(digits);
     vector<int>b = generate_dec(digits);
-    cout << vec_to_str(mul(a,b)) << " / " << vec_to_str(b) << " = ";
+    cout << vec_to_str(mul(a, b)) << " / " << vec_to_str(b) << " = ";
     getline(cin, s);
     if (str_to_vec(s) == a)
         correct++;
@@ -944,7 +944,7 @@ label2:
 label:
     vector<int>a = generate_hex(digits);
     vector<int>b = generate_hex(digits);
-    cout << vec_to_str(dec_to_hex(add(hex_to_dec(a), hex_to_dec(b)))) << " - " << vec_to_str(b)<<" = ";
+    cout << vec_to_str(dec_to_hex(add(hex_to_dec(a), hex_to_dec(b)))) << " - " << vec_to_str(b) << " = ";
     getline(cin, s);
     if (str_to_vec(s) == a)
         correct++;
@@ -992,7 +992,7 @@ label2:
 label:
     vector<int>a = generate_hex(digits);
     vector<int>b = generate_hex(digits);
-    cout << vec_to_str(dec_to_hex(mul(hex_to_dec(a), hex_to_dec(b)))) << " / " << vec_to_str(b)<<" = ";
+    cout << vec_to_str(dec_to_hex(mul(hex_to_dec(a), hex_to_dec(b)))) << " / " << vec_to_str(b) << " = ";
     getline(cin, s);
     if (str_to_vec(s) == a)
         correct++;
@@ -1090,13 +1090,14 @@ void run() {
     int digits;
     int ex;
     int n;
-    label2:
+    srand(time(NULL));
+label2:
     cout << "Arithmetic excersise\n";
     cout << "Enter number of digits\n";
     cin >> digits;
     cout << "Enter number of exercises\n";
     cin >> ex;
-    label:
+label:
     cout << "1 Binary" << endl;
     cout << "2 Octal" << endl;
     cout << "3 Decimal" << endl;
@@ -1106,18 +1107,18 @@ void run() {
     cin >> n;
     cin.ignore();
     switch (n) {
-        case 1:
-            bin_menu(digits, ex);
-            break;
-        case 2:
-            octal_menu(digits, ex);
-            break;
-        case 3:
-            dec_menu(digits, ex);
-            break;
-        case 4:
-            hex_menu(digits, ex);
-            break;
+    case 1:
+        bin_menu(digits, ex);
+        break;
+    case 2:
+        octal_menu(digits, ex);
+        break;
+    case 3:
+        dec_menu(digits, ex);
+        break;
+    case 4:
+        hex_menu(digits, ex);
+        break;
     }
     if (n >= 1 && n <= 4)
         goto label;
@@ -1126,6 +1127,6 @@ void run() {
     cout << "Good Bye" << endl;
     system("pause");
 }
-void main(){
+void main() {
     run();
 }
