@@ -1053,7 +1053,7 @@ label:
 void hex_menu(int digits, int ex) {
     int n;
 label:
-    cout << "\nDecimal" << endl;
+    cout << "\nHexadecimal" << endl;
     cout << "1 addition" << endl;
     cout << "2 substraction" << endl;
     cout << "3 multiplication" << endl;
